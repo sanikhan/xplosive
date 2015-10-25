@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p><br>
+
+  <%= form_tag(preproducts_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
+<%= submit_tag "Search" %>
+<% end %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @preproduct.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @preproduct.price %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @preproduct.description %>
+</p>
+
+<p>
+  <strong>Availibility:</strong>
+  <%= @preproduct.availibility %>
+</p>
+
+<p>
+  <strong>Picture:</strong>
+  <%= image_tag(@preproduct.picture_url, :width => 500) if @preproduct.picture.present? %>>
+</p>
+
+<%= link_to 'Edit', edit_preproduct_path(@preproduct) %> |
+<%= link_to 'Back', preproducts_path %>

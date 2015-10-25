@@ -1,0 +1,81 @@
+class PreproductsController < ApplicationController
+  before_action :set_preproduct, only: [:show, :edit, :update, :destroy]
+
+def index
+  @preproducts = Preproduct.all
+  if params[:search]
+    @preproducts = Preproduct.search(params[:search]).order("created_at DESC")
+  else
+    @preproducts = Preproduct.all.order('created_at DESC')
+  end
+end
+
+  # GET /preproducts
+  # GET /preproducts.json
+  def index
+    @preproducts = Preproduct.all
+  end
+
+  # GET /preproducts/1
+  # GET /preproducts/1.json
+  def show
+  end
+
+  # GET /preproducts/new
+  def new
+    @preproduct = Preproduct.new
+  end
+
+  # GET /preproducts/1/edit
+  def edit
+  end
+
+  # POST /preproducts
+  # POST /preproducts.json
+  def create
+    @preproduct = Preproduct.new(preproduct_params)
+
+    respond_to do |format|
+      if @preproduct.save
+        format.html { redirect_to new_product_path , notice: 'Product was successfully created.' }
+      else
+        format.html { render :new }
+      end
+    end
+  end
+
+  # PATCH/PUT /preproducts/1
+  # PATCH/PUT /preproducts/1.json
+  def update
+    respond_to do |format|
+      if @preproduct.update(preproduct_params)
+        format.html { redirect_to @preproduct, notice: 'Preproduct was successfully updated.' }
+        format.json { render :show, status: :ok, location: @preproduct }
+      else
+        format.html { render :edit }
+        format.json { render json: @preproduct.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /preproducts/1
+  # DELETE /preproducts/1.json
+  def destroy
+    @preproduct.destroy
+    respond_to do |format|
+      format.html { redirect_to preproducts_url, notice: 'Preproduct was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_preproduct
+      @preproduct = Preproduct.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def preproduct_params
+      params.require(:preproduct).permit(:name, :price, :description, :availibility, :picture)
+    end
+end

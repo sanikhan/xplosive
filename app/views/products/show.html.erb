@@ -1,0 +1,102 @@
+<p id="notice"><%= notice %></p>
+
+<%= form_tag(products_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
+<%= submit_tag "Search" %>
+<% end %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product.name %>
+</p>
+<% @product_attachments.each do |p| %>
+  <%= image_tag p.avatar_url %>
+  <%= link_to "Edit Attachment", edit_product_attachment_path(p) %>
+<% end %>
+<p>
+  <strong>Initial price:</strong>
+  <%= @product.initial_price %>
+</p>
+
+<p>
+  <strong>Selling price:</strong>
+  <%= @product.selling_price %>
+</p>
+
+<p>
+  <strong>Bidding price:</strong>
+  <%= @product.bidding_price %>
+</p>
+
+<p>
+  <strong>Opening date:</strong>
+  <%= @product.opening_date %>
+</p>
+
+<p>
+  <strong>Closing date:</strong>
+  <%= @product.closing_date %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @product.category_id %>
+</p>
+
+<p>
+  <strong>Subcategory:</strong>
+  <%= @product.subcategory_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @product.user_id %>
+</p>
+<p>
+<h1><b><%= link_to "Bids", "#", id: "bids-link" %></b></h1>
+</p>
+<section id="bids-section">
+<ol id="bids">
+<%= render @product.bids %>
+</ol>
+
+<h2>Bids:</h2>
+<% @product.bids.each do |bid| %>
+  <p>
+    <strong>Bidderr:</strong>
+    <%= bid.bidder %>
+  </p>
+
+  <p>
+    <strong>Bidding_price:</strong>
+    <%= bid.bidding_price %>
+  </p>
+
+  <p>
+  <%= link_to 'Destroy BId', [bid.product,bid],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
+<% end %>
+
+
+
+<h2>Add a Bid:</h2>
+<%= form_for([@product, @product.bids.build],remote: true ) do |f| %>
+  <p>
+    <%= f.label :bidder %><br>
+    <%= f.text_field :bidder %>
+  </p>
+  <p>
+    <%= f.label :bidding_price %><br>
+    <%= f.text_area :bidding_price %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+</section>
+
+<%= link_to 'Edit', edit_product_path(@product) %> |
+<%= link_to 'Back', products_path %>

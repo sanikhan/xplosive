@@ -1,0 +1,2 @@
+$('#bids').append("<%= j render @bid %>");
+$('#bid_bidding_price').val("");

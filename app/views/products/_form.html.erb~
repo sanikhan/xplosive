@@ -1,0 +1,65 @@
+<%= form_for(@product, :html => { :multipart => true }) do |f| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% @product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= form_tag(products_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
+<%= submit_tag "Search" %>
+<% end %>
+
+    <%= f.fields_for :product_attachments do |p| %>
+     <div class="field">
+       <%= p.label :Images %><br>
+       <%= p.file_field :avatar, :multiple => true, name: "product_attachments[avatar][]" %>
+     </div>
+   <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :initial_price %><br>
+    <%= f.number_field :initial_price %>
+  </div>
+  <div class="field">
+    <%= f.label :selling_price %><br>
+    <%= f.number_field :selling_price %>
+  </div>
+  <div class="field">
+    <%= f.label :bidding_price %><br>
+    <%= f.number_field :bidding_price %>
+  </div>
+  <div class="field">
+    <%= f.label :opening_date %><br>
+    <%= f.date_select :opening_date %>
+  </div>
+  <div class="field">
+    <%= f.label :closing_date %><br>
+    <%= f.date_select :closing_date %>
+  </div>
+  <div class="field">
+    <%= f.label :category_id %><br>
+    <%= f.collection_select(:category_id, Category.all, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.label :subcategory_id %><br>
+    <%= f.grouped_collection_select(:subcategory_id, Category.order(:name), :subcategories, :name, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

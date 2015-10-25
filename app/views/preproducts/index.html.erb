@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+  <%= form_tag(preproducts_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
+<%= submit_tag "Search" %>
+<% end %><br>
+
+<h1>Listing Preproducts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Availibility</th>
+      <th>Picture</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @preproducts.each do |preproduct| %>
+      <tr>
+        <td><%= preproduct.name %></td>
+        <td><%= preproduct.price %></td>
+        <td><%= preproduct.description %></td>
+        <td><%= preproduct.availibility %></td>
+        <td><%= preproduct.picture %></td>
+        <td><%= link_to 'Show', preproduct %></td>
+        <td><%= link_to 'Edit', edit_preproduct_path(preproduct) %></td>
+        <td><%= link_to 'Destroy', preproduct, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Preproduct', new_preproduct_path %>
